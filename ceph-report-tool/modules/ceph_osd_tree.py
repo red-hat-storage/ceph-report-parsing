@@ -1,24 +1,27 @@
 #!/usr/bin/env python
 
-import json,sys
+import sys
 from subprocess import Popen, PIPE
 from StringIO import StringIO
-from optparse import OptionParser
+# from optparse import OptionParser
+import simplejson as json
 
-usage = "Usage: %prog [-f filename]"
-parser = OptionParser()
-parser.add_option("-f", "--file", action="store",type="string",dest="report",help="Use an input file rather than a ceph report command",default="")
 
-(options, args) = parser.parse_args()
+#usage = "Usage: %prog [-f filename]"
+#parser = OptionParser()
+#parser.add_option("-f", "--file", action="store",type="string",dest="report",help="Use an input file rather than a ceph report command",default="")
 
-if (options.report != ''):
-   r = Popen(['cat',options.report],stdout=PIPE,stderr=PIPE)
-else:
-   r = Popen(['ceph','report'],stdout=PIPE,stderr=PIPE)
+#(options, args) = parser.parse_args()
 
-cephreport, _ = r.communicate()
+#if (options.report != ''):
+#   r = Popen(['cat',options.report],stdout=PIPE,stderr=PIPE)
+#else:
+#   r = Popen(['ceph','report'],stdout=PIPE,stderr=PIPE)
 
-obj=json.load(StringIO(cephreport))
+#cephreport, _ = r.communicate()
+
+#obj=json.load(StringIO(cephreport))
+obj=json.load(sys.stdin)
 
 #hashes_data={0:'rjenkins1', 'rjenkins1': 0}
 itemById={}
@@ -50,12 +53,14 @@ def dump_items(b):
             outline += "in\t"
          else:
             outline += "out\t"
-         outline += "{0:4.3}".format(osdById[i['id']]['weight'])
+         if 'weight' in osdById[i['id']]:
+            outline += "{0:4.3}".format(osdById[i['id']]['weight'])
          print outline
       else:
          cb = bucketById[i['id']]
          outline = "{0:6d}\t".format(cb['id'])
-         outline += "{0:8.4}\t".format(float(cb['weight'])*0.00001526)
+         if 'weight' in cb:
+            outline += "{0:8.4}\t".format(float(cb['weight'])*0.00001526)
          while index < dump_bucket_type:
             outline += '\t'
             index += 1
@@ -77,7 +82,8 @@ def osdtree():
    for bucket in obj['crushmap']['buckets']:
       if bucket['type_name'] == 'root':
          outline = "{0:6d}\t".format(bucket['id'])
-         outline += "{0:8.4}\t".format(float(bucket['weight'])*0.00001526)
+         if 'weight' in bucket:
+            outline += "{0:8.4}\t".format(float(bucket['weight'])*0.00001526)
 
          outline += bucket['type_name']+" "
          outline += bucket['name']
