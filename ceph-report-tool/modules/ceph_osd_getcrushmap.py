@@ -48,7 +48,7 @@ print '# rules'
 # -- output all rules
 for rule in obj['crushmap']['rules']:
 	print 'rule '+rule['rule_name']+' {'
-	print '\truleset '+str(rule['rule_id'])
+	print '\truleset '+str(rule['ruleset'])
 	if 'type' in rule:
 		print '\ttype '+ruletypes_data[rule['type']]
 	else:
