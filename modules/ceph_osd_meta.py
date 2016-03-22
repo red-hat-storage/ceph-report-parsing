@@ -1,24 +1,9 @@
 #!/usr/bin/env python
 
 import json,sys
-from subprocess import Popen, PIPE
 from StringIO import StringIO
-from optparse import OptionParser
 
-usage = "Usage: %prog [-f filename]"
-parser = OptionParser()
-parser.add_option("-f", "--file", action="store",type="string",dest="report",help="Use an input file rather than a ceph report command",default="")
-
-(options, args) = parser.parse_args()
-
-if (options.report != ''):
-   r = Popen(['cat',options.report],stdout=PIPE,stderr=PIPE)
-else:
-   r = Popen(['ceph','report'],stdout=PIPE,stderr=PIPE)
-
-cephreport, _ = r.communicate()
-
-obj=json.load(StringIO(cephreport))
+obj=json.load(sys.stdin)
 
 def osdmeta():
    osdmeta = obj['osd_metadata']

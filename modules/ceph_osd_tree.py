@@ -3,27 +3,10 @@
 import sys
 from subprocess import Popen, PIPE
 from StringIO import StringIO
-# from optparse import OptionParser
 import simplejson as json
 
-
-#usage = "Usage: %prog [-f filename]"
-#parser = OptionParser()
-#parser.add_option("-f", "--file", action="store",type="string",dest="report",help="Use an input file rather than a ceph report command",default="")
-
-#(options, args) = parser.parse_args()
-
-#if (options.report != ''):
-#   r = Popen(['cat',options.report],stdout=PIPE,stderr=PIPE)
-#else:
-#   r = Popen(['ceph','report'],stdout=PIPE,stderr=PIPE)
-
-#cephreport, _ = r.communicate()
-
-#obj=json.load(StringIO(cephreport))
 obj=json.load(sys.stdin)
 
-#hashes_data={0:'rjenkins1', 'rjenkins1': 0}
 itemById={}
 bucketById={}
 osdById={}
