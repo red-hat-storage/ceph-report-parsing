@@ -22,13 +22,13 @@ def dump_items(b):
    for i in b['items']:
       index = 0
       if i['id'] > -1:
+         outline = "{0:6d}\t".format(i['id'])
+         outline += "{0:8.4}\t".format(float(i['weight'])*0.00001526)
+         while index < dump_bucket_type:
+            outline += '\t'
+            index += 1
+         outline += "osd."+str(i['id'])+"\t\t\t   "
          if i['id'] in osdById:
-            outline = "{0:6d}\t".format(i['id'])
-            outline += "{0:8.4}\t".format(float(i['weight'])*0.00001526)
-            while index < dump_bucket_type:
-               outline += '\t'
-               index += 1
-            outline += "osd."+str(i['id'])+"\t\t\t   "
             if osdById[i['id']]['up']  == 1:
                outline += "up/"
             else:
@@ -39,7 +39,9 @@ def dump_items(b):
                outline += "out\t"
             if 'weight' in osdById[i['id']]:
                outline += "{0:4.3}".format(osdById[i['id']]['weight'])
-            print outline
+         else:
+            outline += "\tunknown"
+         print outline
       else:
          cb = bucketById[i['id']]
          outline = "{0:6d}\t".format(cb['id'])
@@ -59,8 +61,6 @@ def osdtree():
    dump_bucket_type = 0
    for bucket in obj['crushmap']['buckets']:
            bucketById[bucket['id']]=bucket
-
-   #print bucketById
 
    print "  ID\t  Weight\t      Type\t        Name\t          Status\t         Reweight"
    for bucket in obj['crushmap']['buckets']:
