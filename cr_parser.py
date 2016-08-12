@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import json,sys
+import simplejson as json
+import sys
 from subprocess import Popen, PIPE
 from StringIO import StringIO
 from optparse import OptionParser
