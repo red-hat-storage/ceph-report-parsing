@@ -36,6 +36,11 @@ for osd in obj['osdmap']['osds']:
 	for field in ['public_addr','cluster_addr','heartbeat_back_addr','heartbeat_front_addr']:
 		if field in osd:
 			outline+=' '+osd[field]
-	outline+=' '+osd['state'][0]+','+osd['state'][1]+' '+osd['uuid']
+        if 'state' in osd:
+    	    outline+=' '+','.join(osd['state'])
+        else:
+            outline+=' , '
+        if 'uuid' in osd:
+            outline+=' '+osd['uuid']
 	print outline
 
