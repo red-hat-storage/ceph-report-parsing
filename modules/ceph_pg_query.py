@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys
-import json
+import simplejson as json
 import argparse
 
 """ Provide command line arguments """
