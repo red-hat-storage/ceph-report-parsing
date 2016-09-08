@@ -8,16 +8,6 @@ obj=json.load(sys.stdin)
 
 
 def format_kbytes(b):
-#    if b > math.pow(1024,5):
-#        retval=b/math.pow(1024,5)
-#        retunit='E'
-#    elif b > math.pow(1024,4):
-#        retval=b/math.pow(1024,4)
-#        retunit='P'
-#    elif b > math.pow(1024,3):
-#        retval=b/math.pow(1024,3)
-#        retunit='T'
-#    elif b > math.pow(1024,2):
     if b > math.pow(1024,2):
         retval=b/math.pow(1024,2)
         retunit='G'
@@ -29,10 +19,6 @@ def format_kbytes(b):
         retunit=''
 
     return "{0:.0f}{1}".format(retval,retunit)
-
-# k 1, m 2, g 3, t 4, p 5
-
-#global_fields=[];
 
 print "GLOBAL:"
 print "    SIZE       AVAIL      RAW USED     %RAW USED     OBJECTS";
